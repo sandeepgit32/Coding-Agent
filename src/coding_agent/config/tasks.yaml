@@ -1,0 +1,112 @@
+development_task:
+  description: >
+    Develop and validate Python code for the assignment: {assignment}
+    
+    CRITICAL REQUIREMENTS:
+    - Write ONLY pure Python code with NO markdown formatting symbols (```, ```python, etc.)
+    - Include proper docstrings for all functions and classes
+    - Follow PEP 8 coding standards with proper error handling and input validation
+    - DO NOT include any test functions or test code in the main file
+    - Code should be modular, reusable, and well-structured
+    - Execute the code to verify it works correctly
+    - Include appropriate comments for complex logic
+    - Output both the clean code file and execution results
+    
+  expected_output: >
+    A clean Python (.py) file containing ONLY executable Python code without any markdown symbols,
+    code blocks, or formatting. The file should be production-ready and follow industry standards.
+    NO test functions should be included in this file. Also provide execution output showing the program works.
+  agent: coder
+  output_file: output/{project_dir}/main.py
+
+testing_and_review_task:
+  description: >
+    Create comprehensive test suite and perform quality review of the developed code from the development_task.
+    
+    CRITICAL REQUIREMENTS:
+    - Write ONLY pure Python test code with NO markdown formatting symbols
+    - Use pytest as the testing framework with proper test structure
+    - Include unit tests, integration tests, and edge case tests
+    - Follow AAA pattern (Arrange, Act, Assert) for test structure
+    - Test both positive and negative scenarios with proper assertions
+    - Import the main module properly for testing using `from main import <module_name>`
+    - DO NOT duplicate the main code - only write test functions
+    - Perform code review for quality, security, and performance issues
+    - Execute tests to verify they all pass
+    - Provide feedback on code quality, security, and performance
+    
+  expected_output: >
+    A clean Python test file (.py) containing ONLY pytest test functions without any markdown
+    symbols or code blocks. The file should import and test the main module functions thoroughly.
+    Also provide test execution results and quality assessment feedback.
+  agent: tester
+  context:
+    - development_task
+  output_file: output/{project_dir}/tests.py
+
+documentation_and_deps_task:
+  description: >
+    Create comprehensive project documentation with integrated dependency management based on the code from development_task and testing_and_review_task.
+    
+    CRITICAL REQUIREMENTS:
+    - Create comprehensive README.md with project overview, setup instructions, usage examples
+    - Include API documentation for functions/classes, testing instructions, troubleshooting section
+    - In the README.md, include a "Dependencies" section with a code block containing all required packages
+    - List dependencies in standard pip format (package==version) within the code block
+    - Include all runtime dependencies needed for the application
+    - Include testing dependencies (pytest, etc.) with proper versions
+    - Follow industry documentation standards with clear structure and proper markdown formatting
+    - DO NOT generate a separate requirements.txt file - include all dependency information in README.md only
+    
+  expected_output: >
+    A well-structured README.md with comprehensive project documentation including a Dependencies section 
+    with all required packages listed in a code block in standard pip format.
+  agent: documenter
+  context:
+    - development_task
+    - testing_and_review_task
+  output_file: output/{project_dir}/README.md
+
+finalization_task:
+  description: >
+    Final validation and refinement based on test results and quality review feedback from testing_and_review_task.
+    Address any issues found during testing and quality review to ensure production readiness.
+    
+    CRITICAL REQUIREMENTS:
+    - Review feedback from testing and quality assessment
+    - Fix any identified syntax errors, logical issues, or performance problems
+    - Ensure PEP 8 compliance and proper error handling
+    - Maintain functionality while improving code structure
+    - Write ONLY pure Python code with NO markdown formatting symbols
+    - DO NOT include test functions in this file
+    - Validate final code by executing it
+    
+  expected_output: >
+    Final refined Python (.py) file with all identified issues fixed, containing ONLY clean executable
+    Python code without markdown symbols. The code should be production-ready and optimized.
+    Include execution output to confirm functionality.
+  agent: coder
+  context:
+    - development_task
+    - testing_and_review_task
+  output_file: output/{project_dir}/main.py
+
+execution_validation_task:
+  description: >
+    Run final comprehensive tests and generate execution logs to confirm everything works correctly.
+    Execute both the main program and the complete test suite from finalization_task to validate final solution.
+    
+    CRITICAL REQUIREMENTS:
+    - Execute the pytest test suite with verbose output
+    - Run the main program with test scenarios
+    - Document test results, coverage information, and any remaining issues
+    - Provide final validation that all requirements are met
+    - Generate plain text output without markdown formatting
+    
+  expected_output: >
+    Plain text file (.txt) containing ONLY the pytest execution output, test results, coverage
+    information, and program execution logs. NO markdown symbols - just raw test runner output.
+  agent: tester
+  context:
+    - finalization_task
+  output_file: output/{project_dir}/test_output.txt
