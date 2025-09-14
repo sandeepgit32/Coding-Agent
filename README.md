@@ -20,7 +20,7 @@ crewai install
 ```
 ### Customizing
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+**Add your `PERPLEXITY_API_KEY` into the `.env` file**
 
 - Modify `src/coding_agent/config/agents.yaml` to define your agents
 - Modify `src/coding_agent/config/tasks.yaml` to define your tasks
